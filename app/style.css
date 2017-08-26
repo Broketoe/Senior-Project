@@ -1,0 +1,54 @@
+.control-label {
+    display:inline-block !important;
+    margin-top: 7px;
+    text-align: right;
+}
+input {
+    display:inline-block !important;
+}
+
+.row-margin {
+    margin-top:4px;
+}
+
+.headline-label {
+    width:100%;
+    text-align:right;
+    margin-top:8px;
+}
+
+.modifier {
+    margin-left: 17px;
+}
+
+.condition{
+    text-align:left !important;
+    font-size: 20px;
+    margin-left:8px;
+}
+.skillsArea{
+    background-color: rgba(190, 255, 187, .7);
+    padding: 0 8px 8px 0;
+}
+.defenseArea{
+    background-color: rgba(136, 162, 255, .7);
+    padding: 0 8px 8px 0;
+}
+.conditionArea{
+    background-color: rgba(253, 255, 129, .7);
+    padding: 0 8px 8px 0;
+}
+.statsArea{
+    background-color: rgba(253, 171, 129, .7);
+    padding: 0 8px 8px 0;
+}
+.weaponsArea{
+    background-color: rgba(168, 52, 52, .7);
+    padding: 0 8px 8px 8px;
+}
+.characterForm{
+    margin-bottom:600px;
+}
+.addButton{
+    margin-top:5px;
+}
