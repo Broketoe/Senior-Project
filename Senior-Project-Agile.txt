@@ -1,0 +1,10 @@
+itrations:
+build character sheet
+save to server button
+ - integrates google authentication
+ - build services and database
+revert changes
+ - integrate google authentication
+ - build services in front
+add character sheet for 5th edition DnD
+add character sheet for Pathfinder

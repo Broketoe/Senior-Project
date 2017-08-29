@@ -130,13 +130,13 @@ module.exports = React.createClass({
                 <div className="row row-margin">
                     <div className="col-md-12">                            
                         <div className="col-md-5">
-                            <CharacterRow default={this.state.header.name}  onBlur={this.onChange}  onBlur={this.onChange} width="10" label="Name" placeholder="Character Name" id="name" type="text" />
+                            <CharacterRow default={this.state.header.name}  onBlur={this.onChange} width="10" label="Name" placeholder="Character Name" id="name" type="text" />
                         </div>
                         <div className="col-md-4">
-                            <CharacterRow default={this.state.header.player} onBlur={this.onChange} onBlur={this.onChange} width="10" label="Player" placeholder="Player Name" id="player" type="text"/>
+                            <CharacterRow default={this.state.header.player} onBlur={this.onChange} width="10" label="Player" placeholder="Player Name" id="player" type="text"/>
                         </div>
                         <div className="col-md-3">
-                            <CharacterRow default={this.state.header.age} onBlur={this.onChange} onBlur={this.onChange} width="10" label="Age" placeholder="age" id="age" type="text"/>
+                            <CharacterRow default={this.state.header.age} onBlur={this.onChange} width="10" label="Age" placeholder="age" id="age" type="text"/>
                         </div>                               
                     </div>                
                 </div>
