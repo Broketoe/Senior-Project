@@ -1,4 +1,3 @@
-var dispatcher = require("../dispatcher");
 var savedCharacter = require('./character.json');
 function CharacterStore() {
     var listeners = [];
