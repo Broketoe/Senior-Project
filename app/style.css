@@ -52,3 +52,7 @@ input {
 .addButton{
     margin-top:5px;
 }
+#character-selector {
+    margin-left: 8px;
+    margin-bottom:8px;
+}

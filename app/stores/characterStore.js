@@ -1,18 +1,18 @@
 var savedCharacter = require('./character.json');
 function CharacterStore() {
-    var listeners = [];
-    var character;
-    //localStorage.setItem("sagaChar", JSON.stringify(savedCharacter));
-    if(localStorage.getItem("sagaChar")){
-        character = JSON.parse(localStorage.getItem("sagaChar"));
-    } else {
-        localStorage.setItem("sagaChar", JSON.stringify(savedCharacter));
-        character = savedCharacter;
-    }
     
+    let characters = [],
+        keys = Object.keys(localStorage);
 
+    if(keys.length) {
+        for(let i = 0; i < keys.length; i++) {
+            if(keys[i] != 'charSelection'){
+                characters.push(JSON.parse(localStorage.getItem(keys[i])));
+            }
+        }
+    }
     function getCharacter() {
-        return character;
+        return characters;
     }
 
     return {

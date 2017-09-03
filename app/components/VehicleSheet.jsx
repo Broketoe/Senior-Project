@@ -134,40 +134,24 @@ module.exports = React.createClass({
                             <CharacterRow default={this.state.header.name}  width="10" label="Name" placeholder="Character Name" id="name" type="text" />
                         </div>
                         <div className="col-md-4">
-                            <CharacterRow default={this.state.header.player} onBlur={this.onChange} width="10" label="Player" placeholder="Player Name" id="player" type="text"/>
+                            <CharacterRow default={this.state.header.player} onBlur={this.onChange} width="10" label="Class" placeholder="Class" id="player" type="text"/>
                         </div>
                         <div className="col-md-3">
-                            <CharacterRow default={this.state.header.age} onBlur={this.onChange} width="10" label="Age" placeholder="age" id="age" type="text"/>
+                            <CharacterRow default={this.state.header.age} onBlur={this.onChange} width="10" label="CL" placeholder="CL" id="age" type="text"/>
                         </div>                               
                     </div>                
                 </div>
                 <div className="row row-margin">
                     <div className="col-md-12">                            
                         <div className="col-md-5">
-                            <CharacterRow default={this.state.header.class} onBlur={this.onChange} width="10" label="Class" placeholder="Class" id="class" type="text"/>
+                            <CharacterRow default={this.state.header.class} onBlur={this.onChange} width="10" label="size" placeholder="size" id="class" type="tel"/>
                         </div>
                         <div className="col-md-4">
-                            <CharacterRow default={this.state.header.species} onBlur={this.onChange} width="10" label="Species" placeholder="Species" id="species" type="text"/>
+                            <CharacterRow default={this.state.header.species} onBlur={this.onChange} width="10" label="sizeMod" placeholder="sizeMod" id="species" type="tel"/>
                         </div>  
                         <div className="col-md-3">
-                            <CharacterRow default={this.state.header.level} onBlur={this.onChange} width="10" label="Level" placeholder="Level" id="level" type="text"/>
+                            <CharacterRow default={this.state.header.level} onBlur={this.onChange} width="10" label="Level" placeholder="Level" id="level" type="tel"/>
                         </div>                            
-                    </div>                
-                </div>
-                <div className="row row-margin">
-                    <div className="col-md-12">                            
-                        <div className="col-md-3">
-                            <CharacterRow default={this.state.header.gender} onBlur={this.onChange} width="9" label="Gender" placeholder="Gender" id="gender" type="text"/>
-                        </div>
-                        <div className="col-md-3">
-                            <CharacterRow default={this.state.header.height} onBlur={this.onChange} width="9" label="Height" placeholder="Height" id="height" type="text"/>
-                        </div>  
-                        <div className="col-md-3">
-                            <CharacterRow default={this.state.header.weight} onBlur={this.onChange} width="9" label="Weight" placeholder="Weight" id="weight" type="text"/>
-                        </div>
-                        <div className="col-md-3">
-                            <CharacterRow default={this.state.header.destiny} onBlur={this.onChange} width="9" label="Destiny" placeholder="Destiny" id="destiny" type="text"/>
-                        </div>                             
                     </div>                
                 </div>
                 <div className="statsArea">
