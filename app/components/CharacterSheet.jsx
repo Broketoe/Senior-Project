@@ -115,19 +115,19 @@ module.exports = React.createClass({
         localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));
 
     },
-   render:function(){
-       this.state = Object.create(this.props.default);
-       var skillsRendered = this.renderSkills(this.state.skills);
-       var weaponsRendered = this.renderWeapons(this.state.weapons);
-       var featsRendered = this.renderGeneral(this.state.feats, "feats");
-       var actionsRendered = this.renderGeneral(this.state.specialCombatActions, "specialCombatActions");
-       var equipmentRendered = this.renderGeneral(this.state.equipment, "equipment");
-       var forceRendered = this.renderGeneral(this.state.forcePowers, "forcePowers");
-       var talentsRendered = this.renderGeneral(this.state.talents, "talents");
-       var languagesRendered = this.renderGeneral(this.state.languages, "languages");
-       this.charName = this.state.header.name;
-       return(
-           <form className="characterForm">
+    render:function(){
+        this.state = Object.create(this.props.default);
+        var skillsRendered = this.renderSkills(this.state.skills);
+        var weaponsRendered = this.renderWeapons(this.state.weapons);
+        var featsRendered = this.renderGeneral(this.state.feats, "feats");
+        var actionsRendered = this.renderGeneral(this.state.specialCombatActions, "specialCombatActions");
+        var equipmentRendered = this.renderGeneral(this.state.equipment, "equipment");
+        var forceRendered = this.renderGeneral(this.state.forcePowers, "forcePowers");
+        var talentsRendered = this.renderGeneral(this.state.talents, "talents");
+        var languagesRendered = this.renderGeneral(this.state.languages, "languages");
+        this.charName = this.state.header.name;
+        return(
+            <form className="characterForm">
                 <div className="row row-margin">
                     <div className="col-md-12">                            
                         <div className="col-md-5">
@@ -231,7 +231,7 @@ module.exports = React.createClass({
                                 <CharacterRow default={this.state.stats.defense.fortitude} onBlur={this.onChangeDef} width="5" label="Fort Defense" id="fortitude" />
                             </div>    
                             <div className="col-md-3">
-                                 <CharacterRow default={this.state.stats.credits} onBlur={this.onChangeStats} width="6" label="Credits" id="credits" />
+                                <CharacterRow default={this.state.stats.credits} onBlur={this.onChangeStats} width="6" label="Credits" id="credits" />
                             </div>                          
                         </div>                
                     </div>
@@ -355,7 +355,7 @@ module.exports = React.createClass({
                         <div className="col-md-12"> 
                             <DefenseRow label="WILL" level={this.state.stats.levelOrArmorWill} classbonus={this.state.stats.classBonusWill} onBlur={this.onChangeStats} misc={this.state.stats.miscWill} id="Will" ability={this.state.stats.wisModifier}/>   
                         </div>
-                     </div>
+                    </div>
                 </div>
                 <div className="skillsArea">
                     <div className="row row-margin">
@@ -400,7 +400,7 @@ module.exports = React.createClass({
                                 <button className="addButton" onClick={e => this.addWeapon(e)}>Add Weapon</button>                                            
                         </div>                
                     </div>
-                     <div className="row row-margin">
+                    <div className="row row-margin">
                         <div className="col-md-12">    
                             <div className="col-md-2">
                                 <label className="headline-label col-xs-12" htmlFor="name">WEAPON</label>
@@ -476,17 +476,17 @@ module.exports = React.createClass({
                     </div>
                 </div>
                 <div className="row row-margin">
-                       <div className="col-md-3"> 
-                            <label className="headline-label condition" htmlFor="name">Equipment</label>                                                 
+                    <div className="col-md-3"> 
+                        <label className="headline-label condition" htmlFor="name">Equipment</label>                                                 
                     </div> 
                     <div className="col-md-3"> 
-                            <button className="addButton" onClick={e => this.addItem(e, "equipment")}>Add </button>                                            
+                        <button className="addButton" onClick={e => this.addItem(e, "equipment")}>Add </button>                                            
                     </div> 
                         <div className="col-md-3"> 
-                            <label className="headline-label condition" htmlFor="name">Force Powers</label>                                                 
+                        <label className="headline-label condition" htmlFor="name">Force Powers</label>                                                 
                     </div> 
                     <div className="col-md-3"> 
-                            <button className="addButton" onClick={e => this.addItem(e, "forcePowers")}>Add </button>                                            
+                        <button className="addButton" onClick={e => this.addItem(e, "forcePowers")}>Add </button>                                            
                     </div>               
                 </div>
                     <div className="row row-margin">

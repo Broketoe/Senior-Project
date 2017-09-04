@@ -74,14 +74,33 @@ module.exports = React.createClass({
     render:function(){
         this.characterCreateType = "sagaChar";
         this.characterCreateName = "";
-        let createCharMarkup = <div id="create-character-pop-up-disable">
-                                    <select id="character-type-selection" onChange={e => this.setCharCreateType(e.target.value)}>
-                                        <option value="sagaChar" selected>Saga Character</option>
-                                        <option value="sagaVehicle">Saga Vehicle</option>
-                                    </select>
-                                    <input type="text" className="character-name-creation" onChange={e => this.setCharacterCreateName(e.target.value)}></input>
-                                    <button className="addButton" onClick={e => this.createCharacter(this.characterCreateType, this.characterCreateName)}>Create Character</button>
-                                </div>;
+        let createCharMarkup = <div id="create-char-area">
+                    <div className="row row-margin">
+                        <div className="col-md-12"> 
+                                <label className="headline-label condition" htmlFor="name">Create A Character</label>                                                 
+                        </div>                
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-2"> 
+                            <label className="control-label" htmlFor="name"> Character Type:  </label>
+                        </div>
+                        <div className="col-md-2"> 
+                            <select id="character-type-selection" className="control-label" onChange={e => this.setCharCreateType(e.target.value)}>
+                                <option value="sagaChar" selected>Saga Character</option>
+                                <option value="sagaVehicle">Saga Vehicle</option>
+                            </select>
+                        </div>
+                        <div className="col-md-2"> 
+                            <label className="control-label" htmlFor="name"> Character Name:  </label>
+                        </div>
+                        <div className="col-md-3"> 
+                            <input type="text" className="character-name-creation form-control" onChange={e => this.setCharacterCreateName(e.target.value)}></input>
+                        </div>
+                        <div className="col-md-2"> 
+                            <button className="addButton" onClick={e => this.createCharacter(this.characterCreateType, this.characterCreateName)}>Create Character</button>
+                        </div>
+                    </div>
+                </div>;
         this.character = this.getSelectedChar(localStorage.getItem('charSelection'));
         if (_character.length > 0 && this.getCharSheet(this.character)) {
             
@@ -93,9 +112,9 @@ module.exports = React.createClass({
             if(this.getCharSheet(this.character) == 'swChar') {
                 return(
                 <div>
-                   {charSelector}
-                   <SwCharSheet  default={this.character}/>
-                   {createCharMarkup}
+                    {charSelector}
+                    <SwCharSheet  default={this.character}/>
+                    {createCharMarkup}
                 </div>
                 );
             } else {
@@ -108,15 +127,33 @@ module.exports = React.createClass({
                 );
             }
         } else {
-            console.log('else');
             return (
-                <div id="create-character-pop-up-disable">
-                    <select id="character-type-selection" onChange={e => this.setCharCreateType(e.target.value)}>
-                        <option value="sagaChar" selected>Saga Character</option>
-                        <option value="sagaVehicle">Saga Vehicle</option>
-                    </select>
-                    <input type="text" className="character-name-creation" onChange={e => this.setCharacterCreateName(e.target.value)}></input>
-                    <button className="addButton" onClick={e => this.createCharacter(this.characterCreateType, this.characterCreateName)}>Create Character</button>
+                <div id="create-char-area">
+                    <div className="row row-margin">
+                        <div className="col-md-12"> 
+                                <label className="headline-label condition" htmlFor="name">Create A Character</label>                                                 
+                        </div>                
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-2"> 
+                            <label className="control-label" htmlFor="name"> Character Type:  </label>
+                        </div>
+                        <div className="col-md-2"> 
+                            <select id="character-type-selection" className="control-label" onChange={e => this.setCharCreateType(e.target.value)}>
+                                <option value="sagaChar" selected>Saga Character</option>
+                                <option value="sagaVehicle">Saga Vehicle</option>
+                            </select>
+                        </div>
+                        <div className="col-md-2"> 
+                            <label className="control-label" htmlFor="name"> Character Name:  </label>
+                        </div>
+                        <div className="col-md-3"> 
+                            <input type="text" className="character-name-creation form-control" onChange={e => this.setCharacterCreateName(e.target.value)}></input>
+                        </div>
+                        <div className="col-md-2"> 
+                            <button className="addButton" onClick={e => this.createCharacter(this.characterCreateType, this.characterCreateName)}>Create Character</button>
+                        </div>
+                    </div>
                 </div>
             );
         }

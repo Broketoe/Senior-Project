@@ -47,7 +47,7 @@ input {
     padding: 0 8px 8px 8px;
 }
 .characterForm{
-    margin-bottom:600px;
+    margin-bottom:60px;
 }
 .addButton{
     margin-top:5px;
@@ -55,4 +55,12 @@ input {
 #character-selector {
     margin-left: 8px;
     margin-bottom:8px;
+}
+#character-type-selection {
+    height:36px;
+}
+#create-char-area {
+    margin-bottom: 300px;
+    background-color: rgba(255, 143, 110, .7);
+    padding: 0 8px 8px 0;
 }

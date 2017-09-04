@@ -1,8 +1,5 @@
 var React = require("react");
 var CharacterRow = require("./characterRow.jsx");
-var DefenseRow = require("./DefenseRow.jsx");
-var SkillRow = require("./SkillRow.jsx");
-var WeaponRow = require("./WeaponRow.jsx");
 var GeneralRow = require("./GeneralRow.jsx");
 var actions = require("../actions/CharacterActions");
 var state;
@@ -13,7 +10,6 @@ module.exports = React.createClass({
         });
         this.state.header[key] = event;
         localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));
-
     },
     onChangeStats: function(event, key) {
         var num = this.makeInt(event);
@@ -21,91 +17,10 @@ module.exports = React.createClass({
             [key] : num
         });
         this.state.stats[key] = num;
-        localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));    
-
-    },
-    onChangeDef: function(event, key) {
-        var num = this.makeInt(event);
-        this.setState( {
-            [key] : num
-        });
-        this.state.stats.defense[key] = num;
-        localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));
-
-    },
-    onChangeSkill: function(event, key, index) {
-        var num = this.makeInt(event);
-        this.setState( {
-            [key] : num
-        });
-        this.state.skills[index].skill[key] = num;
-        localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));
-
-    },
-    onChangeWeapon: function(event, key, index) {
-        this.setState( {
-            [key] : event
-        });
-        this.state.weapons[index].weapon[key] = event;
-        localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));
-
+        localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));  
     },
     makeInt: function(num){
         return parseInt(num) || 0;
-    },
-    renderSkills: function(skills) {
-        var skillSet = [];
-        for(var i = 0; i < skills.length; i++){
-            var skill = skills[i].skill;
-            skillSet.push(
-                <SkillRow name={skill.name} modifier={this.state.stats[skill.abilityMod]} change={this.onChangeSkill} trained={skill.trained} focus={skill.skillFocus} misc={skill.misc} index={i} level={this.state.header.level}/>
-            );
-        }
-        return skillSet;
-    },
-    addWeapon: function(e) {
-        e.preventDefault();
-        this.setState();
-        this.state.weapons.push({"weapon":{"name": "", "atk":0, "damage":0, "crit":0, "type":"", "notes":""}});
-        localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));
-    },
-    renderWeapons: function(weapons){
-        var weaponSet = [];
-        for(var i = 0; i < weapons.length; i++){
-            var weapon = weapons[i].weapon;
-            weaponSet.push(
-                <WeaponRow name={weapon.name} index={i} attack={this.state.stats.baseAttack} damage={weapon.damage} crit={weapon.crit} type={weapon.type} notes={weapon.notes} change={this.onChangeWeapon} remove={this.removeWeapon}/>
-            );
-        }
-        return weaponSet;
-    },
-    removeWeapon: function(e, index){
-        e.preventDefault();
-        this.setState();
-        this.state.weapons.splice(index, 1);
-        localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));
-    },
-    renderGeneral: function(array, name){
-        var set = [];
-        for(var i = 0; i < array.length; i++){
-            var item = array[i].eq;
-            set.push(
-                <GeneralRow name={item.name} weight={item.weight} index={i} change={this.onChangeItem} remove={this.removeItem} id={name}/>
-            );
-        }
-        return set;
-    },
-    removeItem: function(e, index, item){
-        e.preventDefault();
-        this.setState();
-        this.state[item].splice(index, 1);
-        localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));
-    },
-    addItem: function(e, item) {
-        e.preventDefault();
-        this.setState();
-        this.state[item].push({"eq": {"name":"", "weight":0}});
-        localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));
     },
     onChangeItem: function(event, key, index, item) {
         this.setState( {
@@ -115,42 +30,36 @@ module.exports = React.createClass({
         localStorage.setItem(this.charName, JSON.stringify(this.state.__proto__));
 
     },
-   render:function(){
-       this.state = Object.create(this.props.default);
-       var skillsRendered = this.renderSkills(this.state.skills);
-       var weaponsRendered = this.renderWeapons(this.state.weapons);
-       var featsRendered = this.renderGeneral(this.state.feats, "feats");
-       var actionsRendered = this.renderGeneral(this.state.specialCombatActions, "specialCombatActions");
-       var equipmentRendered = this.renderGeneral(this.state.equipment, "equipment");
-       var forceRendered = this.renderGeneral(this.state.forcePowers, "forcePowers");
-       var talentsRendered = this.renderGeneral(this.state.talents, "talents");
-       var languagesRendered = this.renderGeneral(this.state.languages, "languages");
-       this.charName = this.state.header.name;
-       return(
-           <form className="characterForm">
+    render:function(){
+        this.state = Object.create(this.props.default);
+        this.charName = this.state.header.name;
+        return(
+            <form className="characterForm">
                 <div className="row row-margin">
                     <div className="col-md-12">                            
                         <div className="col-md-5">
                             <CharacterRow default={this.state.header.name}  width="10" label="Name" placeholder="Character Name" id="name" type="text" />
                         </div>
                         <div className="col-md-4">
-                            <CharacterRow default={this.state.header.player} onBlur={this.onChange} width="10" label="Class" placeholder="Class" id="player" type="text"/>
+                            <CharacterRow default={this.state.header.class} onBlur={this.onChange} width="10" label="Class" placeholder="Class" id="class" type="text"/>
                         </div>
                         <div className="col-md-3">
-                            <CharacterRow default={this.state.header.age} onBlur={this.onChange} width="10" label="CL" placeholder="CL" id="age" type="text"/>
+                            <CharacterRow default={this.state.header.cl} onBlur={this.onChange} width="10" label="CL" placeholder="CL" id="cl" type="tel"/>
                         </div>                               
                     </div>                
                 </div>
                 <div className="row row-margin">
                     <div className="col-md-12">                            
                         <div className="col-md-5">
-                            <CharacterRow default={this.state.header.class} onBlur={this.onChange} width="10" label="size" placeholder="size" id="class" type="tel"/>
+                            <CharacterRow default={this.state.header.type} onBlur={this.onChange} width="9" label="Type" placeholder="Type" id="Type" type="text"/>
                         </div>
                         <div className="col-md-4">
-                            <CharacterRow default={this.state.header.species} onBlur={this.onChange} width="10" label="sizeMod" placeholder="sizeMod" id="species" type="tel"/>
+                            <CharacterRow default={this.state.header.senses} onBlur={this.onChange} width="8" label="Senses" placeholder="Senses" id="senses" type="text"/>
+                            <p>(perception)</p>
                         </div>  
                         <div className="col-md-3">
-                            <CharacterRow default={this.state.header.level} onBlur={this.onChange} width="10" label="Level" placeholder="Level" id="level" type="tel"/>
+                            <CharacterRow default={this.state.header.level} onBlur={this.onChange} width="8" label="Sensors" placeholder="Sensors" id="level" type="tel"/>
+                            <p>(use computer)</p>
                         </div>                            
                     </div>                
                 </div>
@@ -199,7 +108,7 @@ module.exports = React.createClass({
                                 <CharacterRow default={this.state.stats.currentHP} onBlur={this.onChangeStats} width="5" label="Current" id="currentHP" />
                             </div>    
                             <div className="col-md-3">
-                                <CharacterRow default={this.state.stats.darkSide} onBlur={this.onChangeStats} width="5" label="Dark Side Score" id="darkSide" />
+                                <CharacterRow default={this.state.stats.heroLevel} onBlur={this.onChangeStats} width="4" label="Pilot Heroic Level" id="heroLevel" />
                             </div>                          
                         </div>                
                     </div>
@@ -212,10 +121,10 @@ module.exports = React.createClass({
                                 <input type="text" className="form-control" value={this.state.stats.conModifier} onChange={e => this.onChangeStats(e.target.value, "conModifier")} id="conmodifier" name="conModifier" />
                             </div>
                             <div className="col-md-4">
-                                <CharacterRow default={this.state.stats.defense.fortitude} onBlur={this.onChangeDef} width="5" label="Fort Defense" id="fortitude" />
+                                <CharacterRow default={this.state.stats.armorBonus} onBlur={this.onChangeStats} width="5" label="Armor Bonus" id="armorBonus" />
                             </div>    
                             <div className="col-md-3">
-                                 <CharacterRow default={this.state.stats.credits} onBlur={this.onChangeStats} width="6" label="Credits" id="credits" />
+                                <CharacterRow default={this.state.stats.pilotAttack} onBlur={this.onChangeStats} width="4" label="Pilot Range Atk" id="pilotAttack" />
                             </div>                          
                         </div>                
                     </div>
@@ -231,39 +140,23 @@ module.exports = React.createClass({
                                 <CharacterRow default={this.state.stats.miscBonus} onBlur={this.onChangeStats} width="5" label="Misc Bonus" id="miscBonus" />
                             </div>    
                             <div className="col-md-3">
-                                <CharacterRow default={this.state.stats.baseAttack} onBlur={this.onChangeStats} width="6" label="Base Attack" id="baseAttack" />
+                                <CharacterRow default={this.state.stats.pilotSkill} onBlur={this.onChangeStats} width="5" label="Pilot Skill" id="pilotSkill" />
                             </div>                          
                         </div>                
                     </div>
                     <div className="row row-margin">
                         <div className="col-md-12">    
                             <div className="col-md-3">
-                                <CharacterRow default={this.state.stats.wisdom} onBlur={this.onChangeStats} width="5" label="WISdom" id="wisdom" />
+                                <CharacterRow default={this.state.stats.size} onBlur={this.onChangeStats} width="5" label="Size" id="size" />
                             </div>
                             <div className="col-md-1 modifier">
-                                <input type="text" className="form-control" value={this.state.stats.wisModifier} id="wisModifier" onChange={e => this.onChangeStats(e.target.value, "wisModifier")} name="wisModifier" />
+                                <input type="text" className="form-control" value={this.state.stats.sizeModifier} id="sizeModifier" onChange={e => this.onChangeStats(e.target.value, "sizeModifier")} name="sizeModifier" />
                             </div>
                             <div className="col-md-4">
-                                <CharacterRow default={parseInt(this.state.stats.defense.fortitude) + parseInt(this.state.stats.miscBonus)} width="5" label="Damage Threshold" />
+                                <CharacterRow default={this.state.stats.damageReduction} onBlur={this.onChangeStats} width="4" label="Damage Reduction" id="damageReduction" />
                             </div>    
                             <div className="col-md-3">
-                                <CharacterRow default={this.state.stats.forcePoints} onBlur={this.onChangeStats} width="6" label="Force Points" id="forcePoints" />
-                            </div>                          
-                        </div>                
-                    </div>
-                    <div className="row row-margin">
-                        <div className="col-md-12">    
-                            <div className="col-md-3">
-                                <CharacterRow default={this.state.stats.charisma} onBlur={this.onChangeStats} width="5" label="CHArisma" id="charisma" id="charisma" />
-                            </div>
-                            <div className="col-md-1 modifier">
-                                <input type="text" className="form-control" value={this.state.stats.chaModifier} onChange={e => this.onChangeStats(e.target.value, "chaModifier")} id="chaModifier" name="chaModifier" />
-                            </div>
-                            <div className="col-md-4">
-                                
-                            </div>    
-                            <div className="col-md-3">
-                                <CharacterRow default={this.state.stats.destinyPoints} onBlur={this.onChangeStats} width="6" label="Destiny Points" id="destinyPoints" />
+                                <CharacterRow default={this.state.stats.pilotInitiative} onBlur={this.onChangeStats} width="5" label="Pilot Initiative" id="pilotInitiative" />
                             </div>                          
                         </div>                
                     </div>
@@ -305,41 +198,63 @@ module.exports = React.createClass({
                     </div>
                     <div className="row row-margin">
                         <div className="col-md-12">    
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name"></label>
+                            <div className="col-md-4">
+                                <CharacterRow default={this.state.stats.shieldRating} onBlur={this.onChangeStats} width="3" label="Sheild Rating Current" id="shieldRating" id="shieldRating" />
                             </div>
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">TOTAL</label>
-                            </div>
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">LEVEL OR ARMOR</label>
-                            </div>    
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">CLASS BONUS</label>
-                            </div> 
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">ABILITY MOD</label>
-                            </div>
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">MISC</label>
-                            </div>                         
+                            <div className="col-md-4">
+                                <div className="row">
+                                    <label className="control-label col-xs-9" htmlFor="name">Sheild Rating max: </label>
+                                    <div className=" col-xs-3">
+                                        <input type="text" className="form-control" value={this.state.stats.sheildMax} onChange={e => this.onChangeStats(e.target.value, "sheildMax")} id="sheildMax" name="sheildMax" />
+                                    </div>
+                                </div>
+                            </div>   
+                            <div className="col-md-3">
+                                <CharacterRow default={this.state.stats.sheildRecharge} onBlur={this.onChangeStats} width="4" label="Sheild Recharge" id="sheildRecharge" />
+                                <p>(pilot mechanic skill)</p>
+                            </div>                          
                         </div>                
                     </div>
                     <div className="row row-margin">
-                        <div className="col-md-12"> 
-                            <DefenseRow label="FORT" level={this.state.stats.levelOrArmorFort} classbonus={this.state.stats.classBonusFort} onBlur={this.onChangeStats} misc={this.state.stats.miscFort} id="Fort" ability={this.state.stats.conModifier}/>   
+                        <div className="col-md-3"> 
+                            <CharacterRow default={ 10 + parseInt(this.state.stats.strModifier)} width="4" label="Fortitude" />   
+                        </div>
+                        <div className="col-md-4"> 
+                            <label className="control-label col-xs-9" htmlFor="name"> 10 + vehicle Strength Mod</label>
+                        </div>
+                        <div className="col-md-4"> 
                         </div>
                     </div>
                     <div className="row row-margin">
-                        <div className="col-md-12"> 
-                            <DefenseRow label="REF" level={this.state.stats.levelOrArmorRef} classbonus={this.state.stats.classBonusRef} onBlur={this.onChangeStats} misc={this.state.stats.miscRef} id="Ref" ability={this.state.stats.dexModifier}/>   
+                        <div className="col-md-3"> 
+                            <CharacterRow default={ 10 + parseInt(this.state.stats.strModifier) + parseInt(this.state.stats.sizeModifier) } width="4" label="Threshold"/>   
+                        </div>
+                        <div className="col-md-6"> 
+                            <label className="control-label" htmlFor="name"> Fortitude Defense + Vehicle Size Mod</label>
+                        </div>
+                        <div className="col-md-2"> 
                         </div>
                     </div>
                     <div className="row row-margin">
-                        <div className="col-md-12"> 
-                            <DefenseRow label="WILL" level={this.state.stats.levelOrArmorWill} classbonus={this.state.stats.classBonusWill} onBlur={this.onChangeStats} misc={this.state.stats.miscWill} id="Will" ability={this.state.stats.wisModifier}/>   
+                        <div className="col-md-3"> 
+                            <CharacterRow default={10 + parseInt(this.state.stats.dexModifier) + parseInt(this.state.stats.sizeModifier) + (parseInt(this.state.stats.armorBonus) > parseInt(this.state.stats.heroLevel) ? parseInt(this.state.stats.armorBonus) : parseInt(this.state.stats.heroLevel))} width="4" label="Reflex"/>   
                         </div>
-                     </div>
+                        <div className="col-md-7"> 
+                            <label className="control-label" htmlFor="name">10 + Vehicle Dex Mod + Vehicle Size Mod + Armor Bonus or Heroic Level</label>
+                        </div>
+                        <div className="col-md-1"> 
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-3"> 
+                            <CharacterRow default={10 + parseInt(this.state.stats.sizeModifier) + (parseInt(this.state.stats.armorBonus) > parseInt(this.state.stats.heroLevel) ? parseInt(this.state.stats.armorBonus) : parseInt(this.state.stats.heroLevel))} width="4" label="Flat-Footed" />   
+                        </div>
+                        <div className="col-md-5"> 
+                            <label className="control-label" htmlFor="name"> 10 + Vehicle Size Mod + Armor Bonus or Heroic Level</label>
+                        </div>
+                        <div className="col-md-3"> 
+                        </div>
+                    </div>
                 </div>
                 <div className="skillsArea">
                     <div className="row row-margin">
@@ -348,209 +263,238 @@ module.exports = React.createClass({
                         </div>                
                     </div>
                     <div className="row row-margin">
-                        <div className="col-md-12">    
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name"></label>
-                            </div>
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">TOTAL</label>
-                            </div>
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">ABILITY MODIFIER</label>
-                            </div>    
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">TRAINED</label>
-                            </div> 
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">SKILL FOCUS</label>
-                            </div>
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">MISC</label>
-                            </div>                         
-                        </div>                
+                        <div className="col-md-3"> 
+                            <CharacterRow default={parseInt(this.state.stats.sizeModifier) + (parseInt(this.state.stats.pilotInitiative) > parseInt(this.state.stats.pilotSkill) ? parseInt(this.state.stats.pilotInitiative) : parseInt(this.state.stats.pilotSkill)) + parseInt(this.state.stats.dexModifier)} width="4" label="Initiative" />   
+                        </div>
+                        <div className="col-md-7"> 
+                            <label className="control-label" htmlFor="name">Pilot's Initiative or Pilot's Skill + Vehicle Size Mod + Vehicle Dex Mod</label>
+                        </div>
+                        <div className="col-md-1"> 
+                        </div>
                     </div>
                     <div className="row row-margin">
-                        <div className="col-md-12"> 
-                            {skillsRendered}
+                        <div className="col-md-3"> 
+                            <CharacterRow default={parseInt(this.state.stats.sizeModifier) + parseInt(this.state.stats.pilotAttack)} width="4" label="Grapple" />   
+                        </div>
+                        <div className="col-md-5"> 
+                            <label className="control-label" htmlFor="name">Vehicle Size Mod + Pilot Attack + Grapple Size Mod</label>
+                        </div>
+                        <div className="col-md-3"> 
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-3"> 
+                            <CharacterRow default={this.state.header.fightingSpace} onBlur={this.onChange} width="6" label="Fighting Space" id="fightingSpace" type="text"/>  
+                        </div>
+                        <div className="col-md-3"> 
+                            <CharacterRow default={this.state.header.cover} onBlur={this.onChange} width="8" label="Cover" id="cover" type="text"/> 
+                        </div>
+                        <div className="col-md-5"> 
+                            <CharacterRow default={this.state.header.crew} onBlur={this.onChange} width="8" label="Crew" id="crew" type="text"/> 
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-4"> 
+                            <CharacterRow default={this.state.header.cargo} onBlur={this.onChange} width="6" label="Cargo" id="cargo" type="text" />  
+                        </div>
+                        <div className="col-md-3"> 
+                            <CharacterRow default={this.state.header.consumables} onBlur={this.onChange} width="6" label="Consumables" id="consumables" type="text"/> 
+                        </div>
+                        <div className="col-md-4"> 
+                            <CharacterRow default={this.state.header.carriedCraft} onBlur={this.onChange} width="6" label="Carried Craft" id="carriedCraft" type="text"/> 
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-7"> 
+                            <CharacterRow default={this.state.header.hyperdrive} onBlur={this.onChange} width="8" label="Hyperdrive" id="hyperdrive" type="text"/>  
+                        </div>
+                        <div className="col-md-4"> 
+                            <CharacterRow default={this.state.header.payload} onBlur={this.onChange} width="7" label="Payload" id="payload" type="text"/> 
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-7"> 
+                            <CharacterRow default={this.state.header.cost} onBlur={this.onChange} width="8" label="Cost" id="cost" type="text"/>  
+                        </div>
+                        <div className="col-md-4"> 
+                            <CharacterRow default={this.state.header.availability} onBlur={this.onChange} width="6" label="Availability" id="availability" type="text"/> 
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-9"> 
+                            <CharacterRow default={this.state.header.passengers} onBlur={this.onChange} width="8" label="Passengers" id="passengers" type="text"/>  
+                        </div>
+                        <div className="col-md-2"> 
                         </div>
                     </div>
                 </div>
                 <div className="weaponsArea">
                     <div className="row row-margin">
-                        <div className="col-md-4"> 
-                                <label className="headline-label condition" htmlFor="name">WEAPONS</label>                                                 
-                        </div> 
-                        <div className="col-md-8"> 
-                                <button className="addButton" onClick={e => this.addWeapon(e)}>Add Weapon</button>                                            
-                        </div>                
-                    </div>
-                     <div className="row row-margin">
-                        <div className="col-md-12">    
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">WEAPON</label>
-                            </div>
-                            <div className="col-md-1">
-                                <label className="headline-label col-xs-12" htmlFor="name">ATTACK</label>
-                            </div>
-                            <div className="col-md-1">
-                                <label className="headline-label col-xs-12" htmlFor="name">DAMAGE</label>
-                            </div>    
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">CRIT</label>
-                            </div> 
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">TYPE</label>
-                            </div>
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name">NOTES</label>
-                            </div> 
-                            <div className="col-md-2">
-                                <label className="headline-label col-xs-12" htmlFor="name"></label>
-                            </div>                         
-                        </div>                
-                    </div>
-                    <div className="row row-margin">
                         <div className="col-md-12"> 
-                            {weaponsRendered}
-                        </div>
+                                <label className="headline-label condition" htmlFor="name">WEAPONS</label>                                                 
+                        </div>                
                     </div>
-                </div>
-                <div className="row row-margin">
-                    <div className="col-md-3"> 
-                            <label className="headline-label condition" htmlFor="name">Feats</label>                                                 
-                    </div> 
-                    <div className="col-md-3"> 
-                            <button className="addButton" onClick={e => this.addItem(e, "feats")}>Add Feat</button>                                            
-                    </div> 
-                        <div className="col-md-3"> 
-                            <label className="headline-label condition" htmlFor="name">Special Combat Actions</label>                                                 
-                    </div> 
-                    <div className="col-md-3"> 
-                            <button className="addButton" onClick={e => this.addItem(e, "specialCombatActions")}>Add Action</button>                                            
-                    </div>               
-                </div>
                     <div className="row row-margin">
-                    <div className="col-md-12">    
-                        <div className="col-md-4">
-                            <label className="headline-label col-xs-12" htmlFor="name">FEAT</label>
+                        <div className="col-md-7"> 
+                            <CharacterRow default={this.state.header.weapon1} onBlur={this.onChange} width="9" label="Weapon" id="weapon1" type="text"/>  
+                        </div> 
+                        <div className="col-md-1">
+                            <input type="radio" name="weapon1Pilot" value="1" checked={this.state.stats.weapon1Pilot == 1} onChange={e => this.onChangeStats(e.target.value, "weapon1Pilot")}/>Pilot
                         </div>
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name">PG</label>
+                        <div className="col-md-2">
+                            <input type="radio" name="weapon1Pilot" value="2" checked={this.state.stats.weapon1Pilot == 2} onChange={e => this.onChangeStats(e.target.value, "weapon1Pilot")}/>Gunner
                         </div>
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name"></label>
-                        </div>
-                        <div className="col-md-4">
-                            <label className="headline-label col-xs-12" htmlFor="name">ACTION</label>
-                        </div>    
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name">PG</label>
-                        </div>  
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name"></label>
-                        </div>                  
-                    </div>                
-                </div>
-                <div className="row row-margin">
-                    <div className="col-md-6"> 
-                        {featsRendered}
                     </div>
-                        <div className="col-md-6"> 
-                        {actionsRendered}
-                    </div>
-                </div>
-                <div className="row row-margin">
-                       <div className="col-md-3"> 
-                            <label className="headline-label condition" htmlFor="name">Equipment</label>                                                 
-                    </div> 
-                    <div className="col-md-3"> 
-                            <button className="addButton" onClick={e => this.addItem(e, "equipment")}>Add </button>                                            
-                    </div> 
-                        <div className="col-md-3"> 
-                            <label className="headline-label condition" htmlFor="name">Force Powers</label>                                                 
-                    </div> 
-                    <div className="col-md-3"> 
-                            <button className="addButton" onClick={e => this.addItem(e, "forcePowers")}>Add </button>                                            
-                    </div>               
-                </div>
                     <div className="row row-margin">
-                    <div className="col-md-12">    
-                        <div className="col-md-4">
-                            <label className="headline-label col-xs-12" htmlFor="name">EQUIPMENT</label>
-                        </div>
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name">WEIGHT</label>
-                        </div>
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name"></label>
-                        </div>
-                        <div className="col-md-4">
-                            <label className="headline-label col-xs-12" htmlFor="name">POWER</label>
-                        </div>    
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name"></label>
-                        </div>  
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name"></label>
-                        </div>                  
-                    </div>                
-                </div>
-                <div className="row row-margin">
-                    <div className="col-md-6"> 
-                        {equipmentRendered}
-                    </div>
-                        <div className="col-md-6"> 
-                        {forceRendered}
-                    </div>
-                </div>
-                <div className="row row-margin">
-                       <div className="col-md-3"> 
-                            <label className="headline-label condition" htmlFor="name">Talents</label>                                                 
-                    </div> 
-                    <div className="col-md-3"> 
-                            <button className="addButton" onClick={e => this.addItem(e, "talents")}>Add </button>                                            
-                    </div> 
                         <div className="col-md-3"> 
-                            <label className="headline-label condition" htmlFor="name">Languages</label>                                                 
-                    </div> 
-                    <div className="col-md-3"> 
-                            <button className="addButton" onClick={e => this.addItem(e, "languages")}>Add </button>                                            
-                    </div>               
-                </div>
-                    <div className="row row-margin">
-                    <div className="col-md-12">    
-                        <div className="col-md-4">
-                            <label className="headline-label col-xs-12" htmlFor="name">TALENTS</label>
+                            <CharacterRow default={parseInt(this.state.stats.intModifier) + parseInt(this.state.header.weapon1BAB) + parseInt(this.state.header.weapon1Misc)}  width="5" label="Attack" type="tel"/>  
+                        </div> 
+                        <div className="col-md-3">
+                            <CharacterRow default={this.state.header.weapon1BAB} onBlur={this.onChange} width="5" label="= rangedBAB" id="weapon1BAB" type="tel"/>
                         </div>
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name"></label>
+                        <div className="col-md-3">
+                            <CharacterRow default={this.state.header.weapon1Misc} onBlur={this.onChange} width="5" label=" + Misc. Mods" id="weapon1Misc" type="tel"/>
                         </div>
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name"></label>
+                        <div className="col-md-2">
+                        <label className="control-label" htmlFor="name"> + Vehicle Int Mod</label>
                         </div>
-                        <div className="col-md-4">
-                            <label className="headline-label col-xs-12" htmlFor="name">LANGUAGES</label>
-                        </div>    
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name"></label>
-                        </div>  
-                        <div className="col-md-1">
-                            <label className="headline-label col-xs-12" htmlFor="name"></label>
-                        </div>                  
-                    </div>                
-                </div>
-                <div className="row row-margin">
-                    <div className="col-md-6"> 
-                        {talentsRendered}
                     </div>
-                        <div className="col-md-6"> 
-                        {languagesRendered}
+                    <div className="row row-margin">
+                        <div className="col-md-3"> 
+                            <CharacterRow default={(parseInt(this.state.header.weapon1Damage) + Math.floor(parseInt(this.state.stats.heroLevel) * .5) + parseInt(this.state.header.weapon1Misc)) * parseInt(this.state.header.weapon1Multi)}  width="6" label="Damage" type="tel"/>  
+                        </div> 
+                        <div className="col-md-4">
+                            <CharacterRow default={this.state.header.weapon1Damage} onBlur={this.onChange} width="5" label="= (Weapon Damage" id="weapon1Damage" type="tel"/>
+                        </div>
+                        <div className="col-md-3">
+                            <label className="control-label" htmlFor="name"> + 1/2 Hero Lvl + Misc Mod ) x </label>
+                        </div>
+                        <div className="col-md-2">
+                            <CharacterRow default={this.state.header.weapon1Multi} onBlur={this.onChange} width="5" label="Multiplier" id="weapon1Multi" type="tel"/>
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-7"> 
+                            <CharacterRow default={this.state.header.weapon2} onBlur={this.onChange} width="9" label="Weapon" id="weapon2" type="text"/>  
+                        </div> 
+                        <div className="col-md-1">
+                            <input type="radio" name="weapon2Pilot" value="1" checked={this.state.stats.weapon2Pilot == 1} onChange={e => this.onChangeStats(e.target.value, "weapon2Pilot")}/>Pilot
+                        </div>
+                        <div className="col-md-2">
+                            <input type="radio" name="weapon2Pilot" value="2" checked={this.state.stats.weapon2Pilot == 2} onChange={e => this.onChangeStats(e.target.value, "weapon2Pilot")}/>Gunner
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-3"> 
+                            <CharacterRow default={parseInt(this.state.stats.intModifier) + parseInt(this.state.header.weapon2BAB) + parseInt(this.state.header.weapon2Misc)}  width="5" label="Attack" type="tel"/>  
+                        </div> 
+                        <div className="col-md-3">
+                            <CharacterRow default={this.state.header.weapon2BAB} onBlur={this.onChange} width="5" label="= rangedBAB" id="weapon2BAB" type="tel"/>
+                        </div>
+                        <div className="col-md-3">
+                            <CharacterRow default={this.state.header.weapon2Misc} onBlur={this.onChange} width="5" label=" + Misc. Mods" id="weapon2Misc" type="tel"/>
+                        </div>
+                        <div className="col-md-2">
+                        <label className="control-label" htmlFor="name"> + Vehicle Int Mod</label>
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-3"> 
+                            <CharacterRow default={(parseInt(this.state.header.weapon2Damage) + Math.floor(parseInt(this.state.stats.heroLevel) * .5) + parseInt(this.state.header.weapon2Misc)) * parseInt(this.state.header.weapon2Multi)}  width="6" label="Damage" type="tel"/>  
+                        </div> 
+                        <div className="col-md-4">
+                            <CharacterRow default={this.state.header.weapon2Damage} onBlur={this.onChange} width="5" label="= (Weapon Damage" id="weapon2Damage" type="tel"/>
+                        </div>
+                        <div className="col-md-3">
+                            <label className="control-label" htmlFor="name"> + 1/2 Hero Lvl + Misc Mod ) x </label>
+                        </div>
+                        <div className="col-md-2">
+                            <CharacterRow default={this.state.header.weapon2Multi} onBlur={this.onChange} width="5" label="Multiplier" id="weapon2Multi" type="tel"/>
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-7"> 
+                            <CharacterRow default={this.state.header.weapon3} onBlur={this.onChange} width="9" label="Weapon" id="weapon3" type="text"/>  
+                        </div> 
+                        <div className="col-md-1">
+                            <input type="radio" name="weapon5Pilot" value="1" checked={this.state.stats.weapon5Pilot == 1} onChange={e => this.onChangeStats(e.target.value, "weapon5Pilot")}/>Pilot
+                        </div>
+                        <div className="col-md-2">
+                            <input type="radio" name="weapon5Pilot" value="2" checked={this.state.stats.weapon5Pilot == 2} onChange={e => this.onChangeStats(e.target.value, "weapon5Pilot")}/>Gunner
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-3"> 
+                            <CharacterRow default={parseInt(this.state.stats.intModifier) + parseInt(this.state.header.weapon3BAB) + parseInt(this.state.header.weapon3Misc)}  width="5" label="Attack" type="tel"/>  
+                        </div> 
+                        <div className="col-md-3">
+                            <CharacterRow default={this.state.header.weapon3BAB} onBlur={this.onChange} width="5" label="= rangedBAB" id="weapon3BAB" type="tel"/>
+                        </div>
+                        <div className="col-md-3">
+                            <CharacterRow default={this.state.header.weapon3Misc} onBlur={this.onChange} width="5" label=" + Misc. Mods" id="weapon3Misc" type="tel"/>
+                        </div>
+                        <div className="col-md-2">
+                        <label className="control-label" htmlFor="name"> + Vehicle Int Mod</label>
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-3"> 
+                            <CharacterRow default={(parseInt(this.state.header.weapon3Damage) + Math.floor(parseInt(this.state.stats.heroLevel) * .5) + parseInt(this.state.header.weapon3Misc)) * parseInt(this.state.header.weapon3Multi)}  width="6" label="Damage" type="tel"/>  
+                        </div> 
+                        <div className="col-md-4">
+                            <CharacterRow default={this.state.header.weapon3Damage} onBlur={this.onChange} width="5" label="= (Weapon Damage" id="weapon3Damage" type="tel"/>
+                        </div>
+                        <div className="col-md-3">
+                            <label className="control-label" htmlFor="name"> + 1/2 Hero Lvl + Misc Mod ) x </label>
+                        </div>
+                        <div className="col-md-2">
+                            <CharacterRow default={this.state.header.weapon3Multi} onBlur={this.onChange} width="5" label="Multiplier" id="weapon3Multi" type="tel"/>
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-7"> 
+                            <CharacterRow default={this.state.header.weapon4} onBlur={this.onChange} width="9" label="Weapon" id="weapon4" type="text"/>  
+                        </div> 
+                        <div className="col-md-1">
+                            <input type="radio" name="weapon3Pilot" value="1" checked={this.state.stats.weapon4Pilot == 1} onChange={e => this.onChangeStats(e.target.value, "weapon4Pilot")}/>Pilot
+                        </div>
+                        <div className="col-md-2">
+                            <input type="radio" name="weapon3Pilot" value="2" checked={this.state.stats.weapon4Pilot == 2} onChange={e => this.onChangeStats(e.target.value, "weapon4Pilot")}/>Gunner
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-3"> 
+                            <CharacterRow default={parseInt(this.state.stats.intModifier) + parseInt(this.state.header.weapon4BAB) + parseInt(this.state.header.weapon4Misc)}  width="5" label="Attack" type="tel"/>  
+                        </div> 
+                        <div className="col-md-3">
+                            <CharacterRow default={this.state.header.weapon4BAB} onBlur={this.onChange} width="5" label="= rangedBAB" id="weapon4BAB" type="tel"/>
+                        </div>
+                        <div className="col-md-3">
+                            <CharacterRow default={this.state.header.weapon4Misc} onBlur={this.onChange} width="5" label=" + Misc. Mods" id="weapon4Misc" type="tel"/>
+                        </div>
+                        <div className="col-md-2">
+                        <label className="control-label" htmlFor="name"> + Vehicle Int Mod</label>
+                        </div>
+                    </div>
+                    <div className="row row-margin">
+                        <div className="col-md-3"> 
+                            <CharacterRow default={(parseInt(this.state.header.weapon4Damage) + Math.floor(parseInt(this.state.stats.heroLevel) * .5) + parseInt(this.state.header.weapon4Misc)) * parseInt(this.state.header.weapon4Multi)}  width="6" label="Damage" type="tel"/>  
+                        </div> 
+                        <div className="col-md-4">
+                            <CharacterRow default={this.state.header.weapon4Damage} onBlur={this.onChange} width="5" label="= (Weapon Damage" id="weapon4Damage" type="tel"/>
+                        </div>
+                        <div className="col-md-3">
+                            <label className="control-label" htmlFor="name"> + 1/2 Hero Lvl + Misc Mod ) x </label>
+                        </div>
+                        <div className="col-md-2">
+                            <CharacterRow default={this.state.header.weapon4Multi} onBlur={this.onChange} width="5" label="Multiplier" id="weapon4Multi" type="tel"/>
+                        </div>
                     </div>
                 </div>
                 <div className="row row-margin">
                     <div className="col-md-12"> 
                         <div className="col-md-1"> 
-                           <label className="headline-label col-xs-2" htmlFor="name">NOTES</label>
+                            <label className="headline-label col-xs-2" htmlFor="name">NOTES</label>
                         </div>
                         <div className="col-md-12"> 
                             <textarea rows="20" className="col-xs-12" value={this.state.header.notes} onChange={e => this.onChange(e.target.value, "notes")}></textarea>
@@ -558,7 +502,7 @@ module.exports = React.createClass({
                     </div>
                 </div>
 
-           </form>
-       )
-   } 
+            </form>
+        )
+    } 
 });
