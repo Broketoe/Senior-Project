@@ -1,10 +1,12 @@
 let React = require("react");
 let ReactDOM = require("react-dom");
 let SwCharSheet = require('./CharacterSheet.jsx');
+let DungeonCharSheet = require('./DungeonCharSheet.jsx');
 let SwVehicleSheet = require('./VehicleSheet.jsx');
 let characterStore = require("../stores/characterStore");
 let swDefaultChar = require('../stores/character.json');
 let swDefaultVehicle = require('../stores/vehicle.json');
+let dungeonChar = require('../stores/dungeonChar.json');
 let _character = characterStore.getCharacter();
 
 module.exports = React.createClass({
@@ -39,6 +41,12 @@ module.exports = React.createClass({
                     localStorage.setItem(name, JSON.stringify(charData));
                     localStorage.setItem('charSelection', name);
                 break;
+                case "dunChar":
+                    let dungeonCharData = dungeonChar;
+                    dungeonCharData.header.name = name;
+                    localStorage.setItem(name, JSON.stringify(dungeonCharData));
+                    localStorage.setItem('charSelection', name);
+                break;
                 case "sagaVehicle":
                     let swVehicleData = swDefaultVehicle;
                     swDefaultVehicle.header.name = name;
@@ -66,7 +74,7 @@ module.exports = React.createClass({
     },
     getCharSheet:function(character) {
         if(character) {
-        return character.charType;
+            return character.charType;
         } else {
             return null;
         }
@@ -88,6 +96,7 @@ module.exports = React.createClass({
                             <select id="character-type-selection" className="control-label" onChange={e => this.setCharCreateType(e.target.value)}>
                                 <option value="sagaChar" selected>Saga Character</option>
                                 <option value="sagaVehicle">Saga Vehicle</option>
+                                <option value="dunChar">Dungeon Character</option>
                             </select>
                         </div>
                         <div className="col-md-2"> 
@@ -117,6 +126,14 @@ module.exports = React.createClass({
                     {createCharMarkup}
                 </div>
                 );
+            } else if (this.getCharSheet(this.character) == 'dunChar') {
+                return (
+                    <div>
+                        {charSelector}
+                        <DungeonCharSheet  default={this.character}/>
+                        {createCharMarkup}
+                    </div>
+                );
             } else {
                 return(
                 <div>
@@ -142,6 +159,7 @@ module.exports = React.createClass({
                             <select id="character-type-selection" className="control-label" onChange={e => this.setCharCreateType(e.target.value)}>
                                 <option value="sagaChar" selected>Saga Character</option>
                                 <option value="sagaVehicle">Saga Vehicle</option>
+                                <option value="dunChar">Dungeon Character</option>
                             </select>
                         </div>
                         <div className="col-md-2"> 

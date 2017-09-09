@@ -8,13 +8,13 @@ module.exports = React.createClass({
         }
     },
     remove: function(event){
-         if(typeof this.props.change === 'function'){
+        if(typeof this.props.change === 'function'){
             this.props.remove(event, this.props.index, this.props.id);
         }
     },
     render:function(){
         return(
-           <div className="row">
+            <div className="row">
                 <div className="col-xs-8">
                     <input type="text" className="form-control" onChange={e => this.changeHandler(e.target.value, "name")} value={this.props.name} />
                 </div>
