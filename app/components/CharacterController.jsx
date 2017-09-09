@@ -9,7 +9,7 @@ let swDefaultVehicle = require('../stores/vehicle.json');
 let dungeonChar = require('../stores/dungeonChar.json');
 let _character = characterStore.getCharacter();
 
-module.exports = React.createClass({
+module.exports = React.createClass({   
     renderOptions:function(chars) {
         let options = [];
         for(var i = 0; i < chars.length; i++){
